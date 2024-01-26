@@ -33,9 +33,9 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-	// 시큐리티 태그 라이브러리
+	/*// 시큐리티 태그 라이브러리
 	implementation 'org.springframework.security:spring-security-taglibs:6.1.2'
-	/*// JSTL
+	// JSTL
 	implementation 'javax.servlet:jstl'
 	// JSP 템플릿 엔진
 	implementation "org.apache.tomcat.embed:tomcat-embed-jasper"*/
