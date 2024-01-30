@@ -33,6 +33,8 @@ public class SecurityConfig {
                 // .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') and
                 // hasRole('ROLE_USER')")
                 .requestMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+                // access로 해야하는지 authenticated로 해야하는지 그 차이를 알 필요가 있음
+                // requestMatchers에 대해서 adapter 변경 사항과 함께 공부할 것
                 .anyRequest().permitAll()
                 .formLogin()
                 .loginPage("/login")
