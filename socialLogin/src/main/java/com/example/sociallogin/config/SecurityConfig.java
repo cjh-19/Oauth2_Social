@@ -20,27 +20,51 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http.csrf().disable();
+//        http.authorizeRequests()
+//                .requestMatchers("/user/**").authenticated()
+//                // .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or
+//                // hasRole('ROLE_USER')")
+//                // .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') and
+//                // hasRole('ROLE_USER')")
+//                .requestMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+//                .anyRequest().permitAll()
+//                .and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .loginProcessingUrl("/loginProc")
+//                .defaultSuccessUrl("/")
+//                .and()
+//                .oauth2Login()
+//                .loginPage("/login")
+//                .userInfoEndpoint();
+//                ///.userService(principalOauth2UserService);
+//
+//        return http.build();
+//    }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.authorizeRequests()
-                .requestMatchers("/user/**").authenticated()
-                // .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or
-                // hasRole('ROLE_USER')")
-                // .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') and
-                // hasRole('ROLE_USER')")
-                .requestMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-                .anyRequest().permitAll()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/loginProc")
-                .defaultSuccessUrl("/")
-                .and()
-                .oauth2Login()
-                .loginPage("/login")
-                .userInfoEndpoint();
-                ///.userService(principalOauth2UserService);
+        http
+                // CSRF 설정 변경
+                .csrf(csrf -> csrf.disable())
+                // 권한 설정 변경
+                .authorizeRequests(authz -> authz
+                        .requestMatchers("/user/**").authenticated()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .anyRequest().permitAll())
+                // 로그인 설정 변경
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/loginProc")
+                        .defaultSuccessUrl("/"))
+                // OAuth2 로그인 설정 변경
+                .oauth2Login(oauth2 -> oauth2
+                                .loginPage("/login")
+                        // userInfoEndpoint() 설정 변경 또는 삭제
+                        // OAuth2 로그인 후처리 필요 시 여기에 추가
+                );
 
         return http.build();
     }
