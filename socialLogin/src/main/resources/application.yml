@@ -90,7 +90,8 @@ cors:
   max-age: 3600
 
 # jwt secret key 설정
-jwt.secret: '8sknjlO3NPTBqo319DHLNqsQAfRJEdKsETOds'
+# jwt.secret: '8sknjlO3NPTBqo319DHLNqsQAfRJEdKsETOds'
+jwt.secret: 'kwangwoonboys2019DepartmentofSoftwareGraduationProject'
 
 # 토큰 관련 secret Key 및 RedirectUri 설정
 app:
