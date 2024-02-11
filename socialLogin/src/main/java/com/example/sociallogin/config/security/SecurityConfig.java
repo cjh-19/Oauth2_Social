@@ -64,18 +64,23 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable());
+                .csrf((auth) -> auth.disable());
         // 람다를 메서드 참조로 바꿀 수 있음
         // 표시가 발생함 -> 문제가 없는 것인가?
         http
+                .formLogin((auth) -> auth.disable());
+        http
+                .httpBasic((auth) -> auth.disable());
+        http
                 .cors(AbstractHttpConfigurer::disable);
         http
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                //.csrf().disable()
-                .formLogin().disable()
-                .httpBasic().disable()
+                .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http
+                .authorizeHttpRequests((auth) -> auth
+                        .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                                .anyRequest().authenticated();
+                // 오류 발생
+        http
                 .exceptionHandling()
                 .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 .accessDeniedHandler(tokenAccessDeniedHandler)
