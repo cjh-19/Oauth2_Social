@@ -72,38 +72,60 @@ public class SecurityConfig {
         http
                 .httpBasic((auth) -> auth.disable());
         http
-                .cors(AbstractHttpConfigurer::disable);
+                .cors((auth) -> auth.disable());
         http
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                                .anyRequest().authenticated();
-                // 오류 발생
+                                .anyRequest().authenticated()
+                                .requestMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
+                                .requestMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
+                );
         http
-                .exceptionHandling()
-                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
-                .accessDeniedHandler(tokenAccessDeniedHandler)
-                .and()
-                .authorizeRequests()
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
-                .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
-                .anyRequest().authenticated()
-                .and()
-                .oauth2Login()
-                .authorizationEndpoint()
-                .baseUri("/oauth2/authorization")
-                .authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository())
-                .and()
-                .redirectionEndpoint()
-                .baseUri("/*/oauth2/code/*")
-                .and()
-                .userInfoEndpoint()
-                .userService(oAuth2UserService)
-                .and()
-                .successHandler(oAuth2AuthenticationSuccessHandler())
-                .failureHandler(oAuth2AuthenticationFailureHandler());
+                .oauth2Login((auth) -> auth
+                        .authorizationEndpoint((end) -> end
+                                .baseUri("/oauth2/authorization")
+                                .authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository())
+                        )
+                        .redirectionEndpoint((end) -> end
+                                .baseUri("/*/oauth2/code/*")
+                        )
+                        .userInfoEndpoint((end) -> end
+                                .userService(oAuth2UserService)
+                        )
+                        .successHandler(oAuth2AuthenticationSuccessHandler())
+                        .failureHandler(oAuth2AuthenticationFailureHandler())
+                );
+        http
+                .exceptionHandling((auth) -> auth
+                        .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+                        .accessDeniedHandler(tokenAccessDeniedHandler)
+                );
+//        http
+//                .exceptionHandling()
+//                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+//                .accessDeniedHandler(tokenAccessDeniedHandler)
+//                .and()
+//                //.authorizeRequests()
+//                //.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+//                //.antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
+//                //.antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
+//                //.anyRequest().authenticated()
+//                //.and()
+//                .oauth2Login()
+//                .authorizationEndpoint()
+//                .baseUri("/oauth2/authorization")
+//                .authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository())
+//                .and()
+//                .redirectionEndpoint()
+//                .baseUri("/*/oauth2/code/*")
+//                .and()
+//                .userInfoEndpoint()
+//                .userService(oAuth2UserService)
+//                .and()
+//                .successHandler(oAuth2AuthenticationSuccessHandler())
+//                .failureHandler(oAuth2AuthenticationFailureHandler());
 
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
