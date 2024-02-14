@@ -31,7 +31,7 @@ spring:
         order_inserts: true
         order_updates: true
         format_sql: true
-  # Security OAuth
+  # Security OAuth -> 클라이언트 id, secret은 git에 올리면 안됨. 보안 위험. -> 커밋 삭제함
   security:
     oauth2.client:
       registration:
