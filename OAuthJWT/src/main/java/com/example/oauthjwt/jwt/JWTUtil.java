@@ -45,7 +45,7 @@ public class JWTUtil {
         // 이 값들과 데베와 비교했을 때, 값이 있으면 이미 회원, 아니면 최초로그인
         // 최초 로그인 한 경우, 새로운 행 만들면 됨 -> 유니크한 키와 제공업체가 들어감.
         // -> 위의 유니크한 키와 제공업체와 맞는 유저id를 jwt 암호화해서 프론트에 넘겨줌.(1번 api에 대한 응답으로)
-        //
+        // security config, customoauth2userservice, jwtfilter는 남겨야 함. (로직)
         return Jwts.builder()
                 .claim("username", username)
                 .claim("role", role)
