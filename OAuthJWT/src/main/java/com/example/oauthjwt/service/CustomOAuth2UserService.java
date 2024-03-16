@@ -9,6 +9,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+// 제공업체(리소스서버)로부터 유저 정보를 받아오는 부분
+// -> OAuth2Service와 OAuth2User을 구현해서 받아야 함.
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
@@ -21,7 +23,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-
+        System.out.println(userRequest.getAccessToken().getTokenValue());
         OAuth2User oAuth2User = super.loadUser(userRequest);
         System.out.println(oAuth2User);
 
