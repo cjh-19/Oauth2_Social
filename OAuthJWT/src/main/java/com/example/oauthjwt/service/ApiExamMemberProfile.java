@@ -11,7 +11,7 @@ public class ApiExamMemberProfile {
 
     public static void main(String[] args) {
         // 네이버
-        String token = "AAAAN_iWR--X92w99QNBe6rHViORS6BZzW106q7cVBwCOamDescb6ZNCfdIiC3Dxbewh44mIkVMZflAmurkNZlwuu1w";// 네아로 접근 토큰 값";
+        String token = "";// 네아로 접근 토큰 값";
         String header = "Bearer " + token; // Bearer 다음에 공백 추가
         try {
             String apiURL = "https://openapi.naver.com/v1/nid/me";
@@ -39,7 +39,7 @@ public class ApiExamMemberProfile {
         }
 
         // 카카오
-        String K_accessToken = "0nKMTRLgvDXxLICW70vaCLrQbwErFhL9Z_EKKclgAAABjfsJisHmTYKY7N6ACw";
+        String K_accessToken = "";
         try {
             URL url = new URL("https://kapi.kakao.com/v2/user/me");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -69,7 +69,7 @@ public class ApiExamMemberProfile {
         }
 
         // 구글
-        String G_accessToken = "ya29.a0AfB_byAmKTu8ir1v9Mxk8xJXGTrMcn2jGJRoXBvqkpP5GC4CQFV6lGs-PSnhTe8xA09R5YmNJqO-txHWqX6u_9CMFikGTIyxOkwlTpE_tgXHOXftLbOhCbPuZ9F9R-zFcH7oe-GfxQlH_-nEyRJjW5q-1K876NhBL_pHaCgYKAcwSARMSFQHGX2MicMZgNehmqan-YwXJJmSB3Q0171";
+        String G_accessToken = "";
         try {
             URL url = new URL("https://www.googleapis.com/oauth2/v3/userinfo");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
